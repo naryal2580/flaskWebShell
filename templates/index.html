@@ -1,0 +1,14 @@
+<head>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename = 'css/style.css') }}" />
+<script type="text/javascript" language="javascript" src="{{ url_for('static', filename = 'js/jquery.min.js') }}"></script>
+<script type="text/javascript" language="javascript" src="{{ url_for('static', filename = 'js/shortcut.min.js') }}"></script>
+<script type="text/javascript" language="javascript" src="{{ url_for('static', filename = 'js/javascript.js') }}"></script>
+</head>
+<body>
+<h1>flaskWebShell</h1>
+<div class="screen">
+  > <input type="text" placeholder="command" class="cmd" autofocus="autofocus" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <hr color="lime"/>
+  <pre></pre>
+</div>
+</body>
