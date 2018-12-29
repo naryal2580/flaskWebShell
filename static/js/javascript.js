@@ -1,18 +1,33 @@
-$(document).ready(function(){
-	$.ajax({
-		type: 'PROMPT',
-		url: '/',
-		success: function(data) {
-			$('.screen').prepend(data);
-		}
-	});
-});
+// $(document).ready(function(){
+// 	$.ajax({
+// 		type: 'PROMPT',
+// 		url: '/',
+// 		success: function(data) {
+// 			$('.screen').prepend(data);
+// 		}
+// 	});
+// });
 
 function logOutput(output) {
   console.log(`%c` + output, 'color: lime; background: black; font-family: monospace');
 }
 
 function execute(command) {
+	if (command == 'reset') {
+		clearScreen();
+		clear();
+		return "";
+	}
+	if (command == 'clear') {
+		if ($('input').val() != "") {
+			clearScreen();
+			return "";
+		}
+		else {
+			clear();
+			return "";
+		}
+	}
   $.ajax({
     type: "EXEC",
     url: "/",
@@ -50,7 +65,7 @@ function isTextSelected() {
 
 function exec() {
   command = $('input').val();
-  if (command.includes('!!')){
+  if (command.includes(' !!')){
     command = command.replace('!!', lastCommand)
   }
   lastCommand = command;
@@ -78,12 +93,16 @@ shortcut.add("Ctrl+L", function() {
 });
 
 shortcut.add("Shift+Esc", function() {
-  $('input').val('sudo ' +  $('input').val())
+	if ($('input').val() != "") {
+	  $('input').val('sudo ' +  $('input').val());
+	}
+	else {
+		$('input').val('sudo !!');
+	}
 });
 
 shortcut.add("Ctrl+C", function() {
   if (isTextSelected()) {
-    // Not sending the signal.
   }
   else {
     $.ajax({
